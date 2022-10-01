@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
 
     public float counter = 0;
 
+    public bool targetDestroyed = false;
+    public int CoinsToSpawn = 0;
 
     private void Awake()
     {

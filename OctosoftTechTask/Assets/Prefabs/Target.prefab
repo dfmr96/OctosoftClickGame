@@ -114,3 +114,5 @@ MonoBehaviour:
   pointsGranted: 0
   pointsLost: 10
   health: 1
+  secondsToBeDestroyed: 5
+  isTarget: 1

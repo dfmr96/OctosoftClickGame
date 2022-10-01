@@ -32,7 +32,16 @@ public class ObjectsSpawner : MonoBehaviour
 
     void SpawnObject()
     {
-        int randomPrefab = Random.Range(0, objectsPrefabs.Length);
+        int randomPrefab;
+        if (GameManager.sharedInstance.CoinsToSpawn > 0 )
+        {
+            GameManager.sharedInstance.CoinsToSpawn--;
+            randomPrefab = 0;
+        } else
+        {
+            GameManager.sharedInstance.targetDestroyed = false;
+            randomPrefab = Random.Range(0, objectsPrefabs.Length);
+        }
         GameObject randomObject = objectsPrefabs[randomPrefab];
         float randomX = Random.Range(minX, maxX);
         float randomY = Random.Range(minY, maxY);

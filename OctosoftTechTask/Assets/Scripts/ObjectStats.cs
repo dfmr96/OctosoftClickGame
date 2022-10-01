@@ -11,6 +11,7 @@ public class ObjectStats : MonoBehaviour, IPointerClickHandler
     public int pointsLost = 0;
     public int health = 0;
     [SerializeField] int secondsToBeDestroyed = 5;
+    [SerializeField] bool isTarget = false;
 
 
     private void Start()
@@ -43,6 +44,11 @@ public class ObjectStats : MonoBehaviour, IPointerClickHandler
 
         if(health <= 0)
         {
+            if (isTarget)
+            {
+                GameManager.sharedInstance.targetDestroyed = true;
+                GameManager.sharedInstance.CoinsToSpawn += 3;
+            }
             GrantPoints(pointsGranted);
             Destroy(gameObject);
         }
