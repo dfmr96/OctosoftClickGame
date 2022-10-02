@@ -29,6 +29,12 @@ public class ObjectStats : MonoBehaviour, IPointerClickHandler
     private void GrantPoints(int points)
     {
         GameManager.sharedInstance.totalPoints += points;
+
+        if(GameManager.sharedInstance.totalPoints >= GameManager.sharedInstance.pointsToWin)
+        {
+            GameManager.sharedInstance.totalPoints = 100;
+            GameManager.sharedInstance.GameOverScreen(true);
+        }
     }
 
     void LossPointsOnDisappear(int points)
