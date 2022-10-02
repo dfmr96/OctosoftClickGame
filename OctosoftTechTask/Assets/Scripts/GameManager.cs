@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 using TMPro;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,12 +16,15 @@ public class GameManager : MonoBehaviour
     public TMP_Text timeLeft;
 
     public float counter = 0;
+    public float maxTime = 120;
 
     public bool targetDestroyed = false;
     public int CoinsToSpawn = 0;
 
     public GameObject gameOverScreen;
     public TMP_Text resultsText;
+
+    public TimeSpan timeSpan;
 
     private void Awake()
     {
@@ -33,12 +37,22 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         gameOverScreen.SetActive(false);
+        
     }
 
     private void Update()
     {
-        counter = Time.fixedTime;
         points.GetComponent<TMP_Text>().text = totalPoints.ToString("000");
+
+
+        maxTime -= Time.deltaTime;
+        timeSpan = TimeSpan.FromSeconds(maxTime);
+        timeLeft.text = string.Format("{0:D2}:{1:D2}", (timeSpan.Minutes), ( timeSpan.Seconds));
+
+        if (timeSpan.TotalSeconds <= 0)
+        {
+            GameOverScreen(false);
+        }
     }
 
     public void GameOverScreen(bool haveWon)

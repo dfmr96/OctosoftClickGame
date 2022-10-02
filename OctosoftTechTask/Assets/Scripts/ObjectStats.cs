@@ -40,6 +40,11 @@ public class ObjectStats : MonoBehaviour, IPointerClickHandler
     void LossPointsOnDisappear(int points)
     {
         GameManager.sharedInstance.totalPoints -= points;
+
+        if (GameManager.sharedInstance.totalPoints < 0)
+        {
+            GameManager.sharedInstance.totalPoints = 0;
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
