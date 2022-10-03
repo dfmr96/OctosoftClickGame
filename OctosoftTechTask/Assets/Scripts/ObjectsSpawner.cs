@@ -15,6 +15,8 @@ public class ObjectsSpawner : MonoBehaviourPun
     int randomPrefab;
     GameObject randomObject;
 
+    [SerializeField] public static bool isHost;
+
     private void Start()
     {
         maxX = zoneToSpawn.GetComponent<BoxCollider>().bounds.max.x;
@@ -47,12 +49,21 @@ public class ObjectsSpawner : MonoBehaviourPun
             GameManager.sharedInstance.targetDestroyed = false;
             randomPrefab = Random.Range(0, objectsPrefabs.Length);
         }
-        GameObject randomObject = objectsPrefabs[randomPrefab];
+        randomObject = objectsPrefabs[randomPrefab];
         float randomX = Random.Range(minX, maxX);
         float randomY = Random.Range(minY, maxY);
         float randomZ = Random.Range(maxZ, minZ);
         Vector3 randomPos = new Vector3(randomX, randomY, randomZ);
+        randomObject = PhotonNetwork.InstantiateRoomObject(randomObject.name, randomPos, Quaternion.identity);
+        randomObject.transform.parent = gameObject.transform;
 
-        PhotonNetwork.Instantiate(randomObject.name, randomPos, Quaternion.identity);
+        if (gameObject.tag == "Player1") {
+      // PhotonNetwork.InstantiateRoomObject(randomObject.name, randomPos, Quaternion.identity);
+        randomObject.tag = "Player1";
+        } else
+        {
+           randomObject.tag = "Player2";
+        }
+
     }
 }

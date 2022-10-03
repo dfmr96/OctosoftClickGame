@@ -4,6 +4,8 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 public class MasterServer : MonoBehaviourPunCallbacks
 {
     [SerializeField] Button createRoom, joinRoom, exitRoom;
@@ -45,6 +47,8 @@ public class MasterServer : MonoBehaviourPunCallbacks
     {
         Debug.Log(PhotonNetwork.CurrentRoom + "created succesfully");
         DeactiveCreateJoinBtn();
+
+        ObjectsSpawner.isHost = true;
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
@@ -70,7 +74,9 @@ public class MasterServer : MonoBehaviourPunCallbacks
         if (PhotonNetwork.PlayerList.Length == 2)
         {
 
+            ObjectsSpawner.isHost = true;
             PhotonNetwork.LoadLevel("Multiplayer");
+
         }
     }
 

@@ -52,6 +52,9 @@ public class ObjectStats : MonoBehaviourPun, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (photonView.IsMine)
+        {
+
         Debug.Log("Clicked: " + eventData.pointerCurrentRaycast.gameObject.name);
 
         health--;
@@ -64,7 +67,10 @@ public class ObjectStats : MonoBehaviourPun, IPointerClickHandler
                 GameManager.sharedInstance.coinsToSpawn += 3;
             }
             GrantPoints(pointsGranted);
+
             PhotonNetwork.Destroy(gameObject);
+        }
+            
         }
     }
 }
