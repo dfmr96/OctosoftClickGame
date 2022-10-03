@@ -12,6 +12,9 @@ public class ObjectsSpawner : MonoBehaviourPun
     float maxX, minX, maxY, minY, maxZ, minZ;
     [SerializeField] float timeToSpawn = 3f;
 
+    int randomPrefab;
+    GameObject randomObject;
+
     private void Start()
     {
         maxX = zoneToSpawn.GetComponent<BoxCollider>().bounds.max.x;
@@ -35,7 +38,6 @@ public class ObjectsSpawner : MonoBehaviourPun
 
     void SpawnObject()
     {
-        int randomPrefab;
         if (GameManager.sharedInstance.coinsToSpawn > 0 )
         {
             GameManager.sharedInstance.coinsToSpawn--;
@@ -49,8 +51,8 @@ public class ObjectsSpawner : MonoBehaviourPun
         float randomX = Random.Range(minX, maxX);
         float randomY = Random.Range(minY, maxY);
         float randomZ = Random.Range(maxZ, minZ);
-        Vector3 randonPos = new Vector3(randomX, randomY, randomZ);
+        Vector3 randomPos = new Vector3(randomX, randomY, randomZ);
 
-        Instantiate(randomObject, randonPos, Quaternion.identity);
+        PhotonNetwork.Instantiate(randomObject.name, randomPos, Quaternion.identity);
     }
 }
