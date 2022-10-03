@@ -4,8 +4,11 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
-
-public class ObjectStats : MonoBehaviour, IPointerClickHandler
+using Photon.Pun;
+using Photon.Realtime;
+[RequireComponent(typeof(PhotonView))]
+[RequireComponent(typeof(PhotonTransformView))]
+public class ObjectStats : MonoBehaviourPun, IPointerClickHandler
 {
     public int pointsGranted = 0;
     public int pointsLost = 0;
@@ -61,7 +64,7 @@ public class ObjectStats : MonoBehaviour, IPointerClickHandler
                 GameManager.sharedInstance.coinsToSpawn += 3;
             }
             GrantPoints(pointsGranted);
-            Destroy(gameObject);
+            PhotonNetwork.Destroy(gameObject);
         }
     }
 }

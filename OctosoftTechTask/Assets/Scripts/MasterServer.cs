@@ -28,6 +28,8 @@ public class MasterServer : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("Connected to Main Server");
+
+        PhotonNetwork.AutomaticallySyncScene = true;
         
         ActiveCreateJoinBtn();
 
@@ -64,6 +66,12 @@ public class MasterServer : MonoBehaviourPunCallbacks
         exitRoom.interactable = true;
 
         DeactiveCreateJoinBtn();
+
+        if (PhotonNetwork.PlayerList.Length == 2)
+        {
+
+            PhotonNetwork.LoadLevel("Multiplayer");
+        }
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -93,6 +101,11 @@ public class MasterServer : MonoBehaviourPunCallbacks
     {
         base.OnPlayerEnteredRoom(newPlayer);
         Debug.Log( newPlayer + " joined");
+
+        if (PhotonNetwork.PlayerList.Length == 2) {
+
+            PhotonNetwork.LoadLevel("Multiplayer");
+        }
 
     }
 }

@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class ObjectsSpawner : MonoBehaviour
+[RequireComponent(typeof(PhotonView))]
+public class ObjectsSpawner : MonoBehaviourPun
 {
     public GameObject[] objectsPrefabs = new GameObject[5];
     public GameObject zoneToSpawn;
@@ -47,6 +50,7 @@ public class ObjectsSpawner : MonoBehaviour
         float randomY = Random.Range(minY, maxY);
         float randomZ = Random.Range(maxZ, minZ);
         Vector3 randonPos = new Vector3(randomX, randomY, randomZ);
+
         Instantiate(randomObject, randonPos, Quaternion.identity);
     }
 }

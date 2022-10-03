@@ -5,8 +5,10 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 using System;
+using Photon.Pun;
+using System.Security.Cryptography;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviourPun , IPunObservable
 {
     public static GameManager sharedInstance;
     public int totalPoints = 0;
@@ -65,6 +67,20 @@ public class GameManager : MonoBehaviour
         } else
         {
             resultsText.text = "You lose!";
+        }
+    }
+
+    void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(totalPoints);
+           // stream.SendNext(timeSpan);
+        }
+        else
+        {
+            totalPoints = (int)stream.ReceiveNext();
+          //  timeSpan = (TimeSpan)stream.ReceiveNext();
         }
     }
 }
