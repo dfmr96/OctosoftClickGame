@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     public float maxTime = 120;
 
     public bool targetDestroyed = false;
-    public int CoinsToSpawn = 0;
+    public int coinsToSpawn = 0;
 
     public GameObject gameOverScreen;
     public TMP_Text resultsText;

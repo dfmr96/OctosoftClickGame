@@ -58,7 +58,7 @@ public class ObjectStats : MonoBehaviour, IPointerClickHandler
             if (isTarget)
             {
                 GameManager.sharedInstance.targetDestroyed = true;
-                GameManager.sharedInstance.CoinsToSpawn += 3;
+                GameManager.sharedInstance.coinsToSpawn += 3;
             }
             GrantPoints(pointsGranted);
             Destroy(gameObject);

@@ -33,9 +33,9 @@ public class ObjectsSpawner : MonoBehaviour
     void SpawnObject()
     {
         int randomPrefab;
-        if (GameManager.sharedInstance.CoinsToSpawn > 0 )
+        if (GameManager.sharedInstance.coinsToSpawn > 0 )
         {
-            GameManager.sharedInstance.CoinsToSpawn--;
+            GameManager.sharedInstance.coinsToSpawn--;
             randomPrefab = 0;
         } else
         {
