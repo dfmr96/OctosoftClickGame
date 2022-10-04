@@ -102,7 +102,7 @@ public class ObjectStats : MonoBehaviourPun, IPointerClickHandler
 
             if (health <= 0)
             {
-                photonView.RPC("GrantPoints", Photon.Pun.RpcTarget.All, pointsGranted, coinsBonusSpawn);
+                photonView.RPC("GrantPoints", RpcTarget.All, pointsGranted, coinsBonusSpawn);
                 PhotonNetwork.Destroy(gameObject);
             }
 
