@@ -152,6 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51fccd3a2f138ef40853b2ce590209c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  easyBtn: {fileID: 1828702342}
 --- !u!4 &11128553
 Transform:
   m_ObjectHideFlags: 0
@@ -1719,6 +1720,7 @@ GameObject:
   - component: {fileID: 1828702342}
   - component: {fileID: 1828702341}
   - component: {fileID: 1828702340}
+  - component: {fileID: 1828702343}
   m_Layer: 5
   m_Name: EasyToggle
   m_TagString: Untagged
@@ -1833,6 +1835,19 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 0
+--- !u!114 &1828702343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828702338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f88587da1a871b34b980c3088824edba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  difficulty: 0
 --- !u!1 &1839631167
 GameObject:
   m_ObjectHideFlags: 0
@@ -1845,6 +1860,7 @@ GameObject:
   - component: {fileID: 1839631171}
   - component: {fileID: 1839631170}
   - component: {fileID: 1839631169}
+  - component: {fileID: 1839631172}
   m_Layer: 5
   m_Name: NormalToggle
   m_TagString: Untagged
@@ -1959,6 +1975,19 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 0
+--- !u!114 &1839631172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839631167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f88587da1a871b34b980c3088824edba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  difficulty: 1
 --- !u!1 &1949566400
 GameObject:
   m_ObjectHideFlags: 0
@@ -2276,6 +2305,7 @@ GameObject:
   - component: {fileID: 2144155645}
   - component: {fileID: 2144155644}
   - component: {fileID: 2144155643}
+  - component: {fileID: 2144155646}
   m_Layer: 5
   m_Name: HardToggle
   m_TagString: Untagged
@@ -2390,3 +2420,16 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 1
+--- !u!114 &2144155646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2144155641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f88587da1a871b34b980c3088824edba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  difficulty: 2

@@ -4,10 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 public class DifficultyManager : MonoBehaviour
 {
-    [SerializeField] Toggle easyBtn, normalBtn, hardBtn;
-    public int easy, normal, hard;
+    public static DifficultyManager sharedInstance;
+    [SerializeField] Toggle easyBtn;
     public int difficulty;
-
+    private void Awake()
+    {
+        if (sharedInstance == null)
+        {
+            sharedInstance = this;
+        }
+    }
     private void Start()
     {
         easyBtn.isOn = true;

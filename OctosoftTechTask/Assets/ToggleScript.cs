@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class ToggleScript : MonoBehaviour
 {
     Toggle toggle;
+    [SerializeField] int difficulty;
     Color normalColor, selectedColor, originalNormalColor;
 
     private void Start()
@@ -22,6 +23,7 @@ public class ToggleScript : MonoBehaviour
         ColorBlock cb = toggle.colors;
         if (toggle.isOn)
         {
+            DifficultyManager.sharedInstance.difficulty = difficulty;
             cb.normalColor = selectedColor;
         } else
         {
