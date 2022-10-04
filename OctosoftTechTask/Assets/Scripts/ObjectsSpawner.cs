@@ -13,9 +13,7 @@ public class ObjectsSpawner : MonoBehaviourPun
     [SerializeField] float timeToSpawn = 3f;
 
     int randomPrefab;
-    GameObject randomObject;
-
-    [SerializeField] public static bool isHost;
+    public GameObject playerParent;
 
     private void Start()
     {
@@ -49,20 +47,20 @@ public class ObjectsSpawner : MonoBehaviourPun
             GameManager.sharedInstance.targetDestroyed = false;
             randomPrefab = Random.Range(0, objectsPrefabs.Length);
         }
-        randomObject = objectsPrefabs[randomPrefab];
+        GameObject randomObject = objectsPrefabs[randomPrefab];
         float randomX = Random.Range(minX, maxX);
         float randomY = Random.Range(minY, maxY);
         float randomZ = Random.Range(maxZ, minZ);
         Vector3 randomPos = new Vector3(randomX, randomY, randomZ);
-        randomObject = PhotonNetwork.InstantiateRoomObject(randomObject.name, randomPos, Quaternion.identity);
-        randomObject.transform.parent = gameObject.transform;
-
+        randomObject = PhotonNetwork.Instantiate(randomObject.name, randomPos, Quaternion.identity);
+        randomObject.transform.parent = playerParent.transform;
         if (gameObject.tag == "Player1") {
-      // PhotonNetwork.InstantiateRoomObject(randomObject.name, randomPos, Quaternion.identity);
-        randomObject.tag = "Player1";
+            randomObject.GetPhotonView().TransferOwnership(PhotonNetwork.PlayerList[0]);
+            randomObject.tag = "Player1";
         } else
         {
-           randomObject.tag = "Player2";
+            randomObject.GetPhotonView().TransferOwnership(PhotonNetwork.PlayerList[1]);
+            randomObject.tag = "Player2";
         }
 
     }

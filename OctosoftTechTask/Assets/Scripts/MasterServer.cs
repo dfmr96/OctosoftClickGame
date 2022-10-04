@@ -47,8 +47,6 @@ public class MasterServer : MonoBehaviourPunCallbacks
     {
         Debug.Log(PhotonNetwork.CurrentRoom + "created succesfully");
         DeactiveCreateJoinBtn();
-
-        ObjectsSpawner.isHost = true;
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
@@ -73,8 +71,6 @@ public class MasterServer : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.PlayerList.Length == 2)
         {
-
-            ObjectsSpawner.isHost = true;
             PhotonNetwork.LoadLevel("Multiplayer");
 
         }
