@@ -60,7 +60,7 @@ public class ObjectStats : MonoBehaviourPun, IPointerClickHandler
                 if (GameManager.sharedInstance.player2TotalPoints >= GameManager.sharedInstance.pointsToWin)
                 {
                     GameManager.sharedInstance.player2TotalPoints = 100;
-                    GameManager.sharedInstance.GameOverScreen(true);
+                    GameManager.sharedInstance.GameOverScreen(false);
                 }
                 break;
 

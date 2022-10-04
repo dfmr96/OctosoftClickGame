@@ -47,8 +47,8 @@ public class GameManager : MonoBehaviourPun, IPunObservable
 
     private void Update()
     {
-        player1Points.GetComponent<TMP_Text>().text = player1TotalPoints.ToString("000");
-        player2Points.GetComponent<TMP_Text>().text = player2TotalPoints.ToString("000");
+        player1Points.GetComponent<TMP_Text>().text = PhotonNetwork.PlayerList[0].NickName + "\n Score: " + player1TotalPoints.ToString("000");
+        player2Points.GetComponent<TMP_Text>().text = PhotonNetwork.PlayerList[1].NickName + "\n Score: " + player2TotalPoints.ToString("000");
 
 
         maxTime -= Time.deltaTime;
@@ -68,11 +68,11 @@ public class GameManager : MonoBehaviourPun, IPunObservable
 
         if (haveWon)
         {
-            resultsText.text = "You WON!!!";
+            resultsText.text = PhotonNetwork.PlayerList[0].NickName + " has WON!!!";
         }
         else
         {
-            resultsText.text = "You lose!";
+            resultsText.text = PhotonNetwork.PlayerList[1].NickName + " has WON!!!";
         }
     }
 
