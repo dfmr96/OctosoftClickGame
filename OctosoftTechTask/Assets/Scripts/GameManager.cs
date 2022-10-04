@@ -13,6 +13,10 @@ public class GameManager : MonoBehaviourPun, IPunObservable
     public TMP_Text player1Points;
     public TMP_Text player2Points;
 
+    public int difficulty;
+    public int player1Difficulty;
+    public int player2Difficulty;
+
     public int pointsToWin = 100;
     public TMP_Text timeLeft;
 
@@ -37,19 +41,14 @@ public class GameManager : MonoBehaviourPun, IPunObservable
             sharedInstance = this;
         }
     }
-
     private void Start()
     {
         gameOverScreen.SetActive(false);
-
-
     }
-
     private void Update()
     {
         player1Points.GetComponent<TMP_Text>().text = PhotonNetwork.PlayerList[0].NickName + "\n Score: " + player1TotalPoints.ToString("000");
         player2Points.GetComponent<TMP_Text>().text = PhotonNetwork.PlayerList[1].NickName + "\n Score: " + player2TotalPoints.ToString("000");
-
 
         maxTime -= Time.deltaTime;
         timeSpan = TimeSpan.FromSeconds(maxTime);
@@ -59,14 +58,14 @@ public class GameManager : MonoBehaviourPun, IPunObservable
         {
             if (player1TotalPoints > player2TotalPoints)
             {
-            GameOverScreen(true);
-            } else
+                GameOverScreen(true);
+            }
+            else
             {
-            GameOverScreen(false);
+                GameOverScreen(false);
             }
         }
     }
-
     public void GameOverScreen(bool haveWon)
     {
         Time.timeScale = 0;
@@ -81,7 +80,6 @@ public class GameManager : MonoBehaviourPun, IPunObservable
             resultsText.text = PhotonNetwork.PlayerList[1].NickName + " has WON!!!";
         }
     }
-
     void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
@@ -90,7 +88,6 @@ public class GameManager : MonoBehaviourPun, IPunObservable
             stream.SendNext(player2TotalPoints);
             stream.SendNext(player1CoinsToSpawn);
             stream.SendNext(player2CoinsToSpawn);
-
         }
         else
         {
