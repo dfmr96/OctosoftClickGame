@@ -57,7 +57,13 @@ public class GameManager : MonoBehaviourPun, IPunObservable
 
         if (timeSpan.TotalSeconds <= 0)
         {
+            if (player1TotalPoints > player2TotalPoints)
+            {
+            GameOverScreen(true);
+            } else
+            {
             GameOverScreen(false);
+            }
         }
     }
 
