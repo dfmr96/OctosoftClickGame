@@ -1,11 +1,8 @@
-using System;
+using Photon.Pun;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Photon.Pun;
-using Photon.Realtime;
+
 [RequireComponent(typeof(PhotonView))]
 [RequireComponent(typeof(PhotonTransformView))]
 public class ObjectStats : MonoBehaviourPun, IPointerClickHandler
@@ -28,25 +25,64 @@ public class ObjectStats : MonoBehaviourPun, IPointerClickHandler
         Destroy(gameObject);
     }
 
-    
+    [PunRPC]
     private void GrantPoints(int points)
     {
-        GameManager.sharedInstance.totalPoints += points;
-
-        if(GameManager.sharedInstance.totalPoints >= GameManager.sharedInstance.pointsToWin)
+        switch (gameObject.GetPhotonView().OwnerActorNr)
         {
-            GameManager.sharedInstance.totalPoints = 100;
-            GameManager.sharedInstance.GameOverScreen(true);
+            case 1:
+                GameManager.sharedInstance.player1TotalPoints += points;
+
+                if(GameManager.sharedInstance.player1TotalPoints < 0)
+                {
+                    GameManager.sharedInstance.player1TotalPoints = 0;
+                }
+
+                if (GameManager.sharedInstance.player1TotalPoints >= GameManager.sharedInstance.pointsToWin)
+                {
+                    GameManager.sharedInstance.player1TotalPoints = 100;
+                    GameManager.sharedInstance.GameOverScreen(true);
+                }
+                break;
+            case 2:
+                GameManager.sharedInstance.player2TotalPoints += points;
+
+                if(GameManager.sharedInstance.player2TotalPoints < 0)
+                {
+                    GameManager.sharedInstance.player2TotalPoints = 0;
+                }
+
+                if (GameManager.sharedInstance.player2TotalPoints >= GameManager.sharedInstance.pointsToWin)
+                {
+                    GameManager.sharedInstance.player2TotalPoints = 100;
+                    GameManager.sharedInstance.GameOverScreen(true);
+                }
+                break;
+
         }
     }
 
     void LossPointsOnDisappear(int points)
     {
-        GameManager.sharedInstance.totalPoints -= points;
-
-        if (GameManager.sharedInstance.totalPoints < 0)
+        switch (gameObject.GetPhotonView().OwnerActorNr)
         {
-            GameManager.sharedInstance.totalPoints = 0;
+            case 1:
+                GameManager.sharedInstance.player1TotalPoints -= points;
+
+                if (GameManager.sharedInstance.player1TotalPoints < 0)
+                {
+                    GameManager.sharedInstance.player1TotalPoints = 0;
+                }
+                break;
+            case 2:
+                GameManager.sharedInstance.player2TotalPoints -= points;
+
+                if (GameManager.sharedInstance.player2TotalPoints < 0)
+                {
+                    GameManager.sharedInstance.player2TotalPoints = 0;
+                }
+                break;
+
         }
     }
 
@@ -55,22 +91,31 @@ public class ObjectStats : MonoBehaviourPun, IPointerClickHandler
         if (photonView.IsMine)
         {
 
-        Debug.Log("Clicked: " + eventData.pointerCurrentRaycast.gameObject.name);
+            Debug.Log("Clicked: " + eventData.pointerCurrentRaycast.gameObject.name);
 
-        health--;
+            health--;
 
-        if(health <= 0)
-        {
-            if (isTarget)
+            if (health <= 0)
             {
-                GameManager.sharedInstance.targetDestroyed = true;
-                GameManager.sharedInstance.coinsToSpawn += 3;
-            }
-            GrantPoints(pointsGranted);
+                if (isTarget)
+                {
+                    GameManager.sharedInstance.targetDestroyed = true;
+                    switch (gameObject.GetPhotonView().OwnerActorNr)
+                    {
+                        case 1:
+                            GameManager.sharedInstance.player1CoinsToSpawn += 3;
+                            break;
+                        case 2:
+                            GameManager.sharedInstance.player2CoinsToSpawn += 3;
+                            break;
 
-            PhotonNetwork.Destroy(gameObject);
-        }
-            
+                    }
+
+                }
+                photonView.RPC("GrantPoints", Photon.Pun.RpcTarget.All, pointsGranted);
+                PhotonNetwork.Destroy(gameObject);
+            }
+
         }
     }
 }

@@ -11,8 +11,13 @@ using System.Security.Cryptography;
 public class GameManager : MonoBehaviourPun , IPunObservable
 {
     public static GameManager sharedInstance;
-    public int totalPoints = 0;
-    public TMP_Text points;
+
+    public int player1TotalPoints = 0;
+    public int player2TotalPoints = 0;
+
+    public TMP_Text player1Points;
+    public TMP_Text player2Points;
+
     public int pointsToWin = 100;
     public TMP_Text timeLeft;
 
@@ -20,7 +25,10 @@ public class GameManager : MonoBehaviourPun , IPunObservable
     public float maxTime = 120;
 
     public bool targetDestroyed = false;
-    public int coinsToSpawn = 0;
+
+    public int coinsToSpawn;
+    public int player1CoinsToSpawn = 0;
+    public int player2CoinsToSpawn = 0;
 
     public GameObject gameOverScreen;
     public TMP_Text resultsText;
@@ -43,7 +51,8 @@ public class GameManager : MonoBehaviourPun , IPunObservable
 
     private void Update()
     {
-        points.GetComponent<TMP_Text>().text = totalPoints.ToString("000");
+        player1Points.GetComponent<TMP_Text>().text = player1TotalPoints.ToString("000");
+        player2Points.GetComponent<TMP_Text>().text = player2TotalPoints.ToString("000");
 
 
         maxTime -= Time.deltaTime;
@@ -74,13 +83,13 @@ public class GameManager : MonoBehaviourPun , IPunObservable
     {
         if (stream.IsWriting)
         {
-            stream.SendNext(totalPoints);
-           // stream.SendNext(timeSpan);
+            stream.SendNext(player1TotalPoints);
+            stream.SendNext(player2TotalPoints);
         }
         else
         {
-            totalPoints = (int)stream.ReceiveNext();
-          //  timeSpan = (TimeSpan)stream.ReceiveNext();
+            player1TotalPoints = (int)stream.ReceiveNext();
+            player2TotalPoints = (int)stream.ReceiveNext();
         }
     }
 }
