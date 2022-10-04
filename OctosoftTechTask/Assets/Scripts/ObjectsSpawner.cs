@@ -39,14 +39,21 @@ public class ObjectsSpawner : MonoBehaviourPun
 
     void SpawnObject()
     {
-        if (GameManager.sharedInstance.coinsToSpawn > 0 )
+
+        if (PhotonNetwork.IsMasterClient)
         {
-            GameManager.sharedInstance.coinsToSpawn--;
+
+        randomPrefab = Random.Range(0, objectsPrefabs.Length);
+
+        if (GameManager.sharedInstance.player1CoinsToSpawn > 0 && this.tag == "Player1")
+        {
+            GameManager.sharedInstance.player1CoinsToSpawn--;
             randomPrefab = 0;
-        } else
+        }
+        if (GameManager.sharedInstance.player2CoinsToSpawn > 0 && this.tag == "Player2")
         {
-            GameManager.sharedInstance.targetDestroyed = false;
-            randomPrefab = Random.Range(0, objectsPrefabs.Length);
+            GameManager.sharedInstance.player2CoinsToSpawn--;
+            randomPrefab = 0;
         }
         GameObject randomObject = objectsPrefabs[randomPrefab];
         float randomX = Random.Range(minX, maxX);
@@ -64,5 +71,6 @@ public class ObjectsSpawner : MonoBehaviourPun
             randomObject.tag = "Player2";
         }
 
+        }
     }
 }

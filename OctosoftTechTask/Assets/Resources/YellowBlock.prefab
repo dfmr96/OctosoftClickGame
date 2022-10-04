@@ -115,8 +115,8 @@ MonoBehaviour:
   pointsGranted: 1
   pointsLost: 1
   health: 1
+  coinsBonusSpawn: 0
   secondsToBeDestroyed: 5
-  isTarget: 0
 --- !u!114 &1462889398783433185
 MonoBehaviour:
   m_ObjectHideFlags: 0

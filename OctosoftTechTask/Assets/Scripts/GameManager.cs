@@ -1,14 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using TMPro;
-using System;
 using Photon.Pun;
-using System.Security.Cryptography;
+using System;
+using TMPro;
+using UnityEngine;
 
-public class GameManager : MonoBehaviourPun , IPunObservable
+public class GameManager : MonoBehaviourPun, IPunObservable
 {
     public static GameManager sharedInstance;
 
@@ -46,7 +41,8 @@ public class GameManager : MonoBehaviourPun , IPunObservable
     private void Start()
     {
         gameOverScreen.SetActive(false);
-        
+
+
     }
 
     private void Update()
@@ -57,7 +53,7 @@ public class GameManager : MonoBehaviourPun , IPunObservable
 
         maxTime -= Time.deltaTime;
         timeSpan = TimeSpan.FromSeconds(maxTime);
-        timeLeft.text = string.Format("{0:D2}:{1:D2}", (timeSpan.Minutes), ( timeSpan.Seconds));
+        timeLeft.text = string.Format("{0:D2}:{1:D2}", (timeSpan.Minutes), (timeSpan.Seconds));
 
         if (timeSpan.TotalSeconds <= 0)
         {
@@ -73,7 +69,8 @@ public class GameManager : MonoBehaviourPun , IPunObservable
         if (haveWon)
         {
             resultsText.text = "You WON!!!";
-        } else
+        }
+        else
         {
             resultsText.text = "You lose!";
         }
@@ -85,11 +82,16 @@ public class GameManager : MonoBehaviourPun , IPunObservable
         {
             stream.SendNext(player1TotalPoints);
             stream.SendNext(player2TotalPoints);
+            stream.SendNext(player1CoinsToSpawn);
+            stream.SendNext(player2CoinsToSpawn);
+
         }
         else
         {
             player1TotalPoints = (int)stream.ReceiveNext();
             player2TotalPoints = (int)stream.ReceiveNext();
+            player1CoinsToSpawn = (int)stream.ReceiveNext();
+            player2CoinsToSpawn = (int)stream.ReceiveNext();
         }
     }
 }

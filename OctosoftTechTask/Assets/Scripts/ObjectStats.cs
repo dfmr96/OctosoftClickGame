@@ -10,13 +10,15 @@ public class ObjectStats : MonoBehaviourPun, IPointerClickHandler
     public int pointsGranted = 0;
     public int pointsLost = 0;
     public int health = 0;
+    public int coinsBonusSpawn = 0;
     [SerializeField] int secondsToBeDestroyed = 5;
-    [SerializeField] bool isTarget = false;
+    //[SerializeField] bool isTarget = false;
 
 
     private void Start()
     {
         StartCoroutine(LifeTimer());
+        Debug.Log(gameObject.GetPhotonView().OwnerActorNr);
     }
     IEnumerator LifeTimer()
     {
@@ -26,14 +28,15 @@ public class ObjectStats : MonoBehaviourPun, IPointerClickHandler
     }
 
     [PunRPC]
-    private void GrantPoints(int points)
+    private void GrantPoints(int points, int coinsBonus)
     {
         switch (gameObject.GetPhotonView().OwnerActorNr)
         {
             case 1:
                 GameManager.sharedInstance.player1TotalPoints += points;
+                GameManager.sharedInstance.player1CoinsToSpawn += coinsBonus;
 
-                if(GameManager.sharedInstance.player1TotalPoints < 0)
+                if (GameManager.sharedInstance.player1TotalPoints < 0)
                 {
                     GameManager.sharedInstance.player1TotalPoints = 0;
                 }
@@ -46,8 +49,10 @@ public class ObjectStats : MonoBehaviourPun, IPointerClickHandler
                 break;
             case 2:
                 GameManager.sharedInstance.player2TotalPoints += points;
+                GameManager.sharedInstance.player2CoinsToSpawn += coinsBonus;
 
-                if(GameManager.sharedInstance.player2TotalPoints < 0)
+
+                if (GameManager.sharedInstance.player2TotalPoints < 0)
                 {
                     GameManager.sharedInstance.player2TotalPoints = 0;
                 }
@@ -97,25 +102,11 @@ public class ObjectStats : MonoBehaviourPun, IPointerClickHandler
 
             if (health <= 0)
             {
-                if (isTarget)
-                {
-                    GameManager.sharedInstance.targetDestroyed = true;
-                    switch (gameObject.GetPhotonView().OwnerActorNr)
-                    {
-                        case 1:
-                            GameManager.sharedInstance.player1CoinsToSpawn += 3;
-                            break;
-                        case 2:
-                            GameManager.sharedInstance.player2CoinsToSpawn += 3;
-                            break;
-
-                    }
-
-                }
-                photonView.RPC("GrantPoints", Photon.Pun.RpcTarget.All, pointsGranted);
+                photonView.RPC("GrantPoints", Photon.Pun.RpcTarget.All, pointsGranted, coinsBonusSpawn);
                 PhotonNetwork.Destroy(gameObject);
             }
 
         }
     }
 }
+

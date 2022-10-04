@@ -654,8 +654,8 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 0
   ObservedComponents:
-  - {fileID: 720873286}
   - {fileID: 720873283}
+  - {fileID: 720873286}
   sceneViewId: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -843,12 +843,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectsPrefabs:
-  - {fileID: 1808265353395088, guid: 126453ac4ec212b4fbdc99af0a825af3, type: 3}
   - {fileID: 1591165099382186, guid: 033a3c67315f00043bf7e25b493c8b31, type: 3}
-  - {fileID: 1978775886026106, guid: b5f10700c4cecda43afaa9fdd67c84e5, type: 3}
-  - {fileID: 1443614743384344, guid: 90fb214880065ca44be9cb53bcbd6780, type: 3}
+  - {fileID: 1808265353395088, guid: 126453ac4ec212b4fbdc99af0a825af3, type: 3}
   - {fileID: 1208871959118300, guid: 43b967c34ea093d42b560972680734cf, type: 3}
-  - {fileID: 1978775886026106, guid: bbc12ae2f967ec04e8c3c39eeb92733b, type: 3}
   zoneToSpawn: {fileID: 2144205210}
   timeToSpawn: 3
   playerParent: {fileID: 19567117}
@@ -1450,10 +1447,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectsPrefabs:
-  - {fileID: 1808265353395088, guid: 126453ac4ec212b4fbdc99af0a825af3, type: 3}
   - {fileID: 1591165099382186, guid: 033a3c67315f00043bf7e25b493c8b31, type: 3}
-  - {fileID: 1978775886026106, guid: b5f10700c4cecda43afaa9fdd67c84e5, type: 3}
-  - {fileID: 1443614743384344, guid: 90fb214880065ca44be9cb53bcbd6780, type: 3}
   - {fileID: 1208871959118300, guid: 43b967c34ea093d42b560972680734cf, type: 3}
   - {fileID: 1978775886026106, guid: bbc12ae2f967ec04e8c3c39eeb92733b, type: 3}
   zoneToSpawn: {fileID: 464073678}
