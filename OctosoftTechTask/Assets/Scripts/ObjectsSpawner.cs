@@ -27,6 +27,7 @@ public class ObjectsSpawner : MonoBehaviourPun
         minZ = zoneToSpawn.GetComponent<BoxCollider>().bounds.min.z;
 
         StartCoroutine(SpawnObjectTimer());
+
         SpawnObject();
     }
 

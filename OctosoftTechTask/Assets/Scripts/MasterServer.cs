@@ -47,6 +47,8 @@ public class MasterServer : MonoBehaviourPunCallbacks
     {
         Debug.Log(PhotonNetwork.CurrentRoom + "created succesfully");
         DeactiveCreateJoinBtn();
+
+
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
@@ -69,11 +71,15 @@ public class MasterServer : MonoBehaviourPunCallbacks
 
         DeactiveCreateJoinBtn();
 
-        if (PhotonNetwork.PlayerList.Length == 2)
-        {
-            PhotonNetwork.LoadLevel("Multiplayer");
+        //if (PhotonNetwork.PlayerList.Length == 2)
+        //{
+        //    PhotonNetwork.LoadLevel("Multiplayer");
 
-        }
+        //}
+
+        DifficultyManager.sharedInstance.player2Difficulty = DifficultyManager.sharedInstance.myDifficulty;
+
+        StartCoroutine(matchStarting());
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -104,10 +110,16 @@ public class MasterServer : MonoBehaviourPunCallbacks
         base.OnPlayerEnteredRoom(newPlayer);
         Debug.Log( newPlayer + " joined");
 
-        if (PhotonNetwork.PlayerList.Length == 2) {
+        StartCoroutine(matchStarting());
+    }
 
-            PhotonNetwork.LoadLevel("Multiplayer");
+    IEnumerator matchStarting()
+    {
+
+        if (PhotonNetwork.PlayerList.Length == 2)
+        {
+            yield return new WaitForSeconds(5f);
+        //PhotonNetwork.LoadLevel("Multiplayer");
         }
-
     }
 }

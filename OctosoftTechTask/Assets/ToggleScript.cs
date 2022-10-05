@@ -23,7 +23,7 @@ public class ToggleScript : MonoBehaviour
         ColorBlock cb = toggle.colors;
         if (toggle.isOn)
         {
-            DifficultyManager.sharedInstance.difficulty = difficulty;
+            DifficultyManager.sharedInstance.myDifficulty = difficulty;
             cb.normalColor = selectedColor;
         } else
         {
