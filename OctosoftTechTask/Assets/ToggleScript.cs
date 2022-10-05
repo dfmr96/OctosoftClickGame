@@ -1,13 +1,13 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-
 public class ToggleScript : MonoBehaviour
 {
     Toggle toggle;
-    [SerializeField] int difficulty;
+    [SerializeField] int btnDifficulty;
     Color normalColor, selectedColor, originalNormalColor;
 
     private void Start()
@@ -23,8 +23,8 @@ public class ToggleScript : MonoBehaviour
         ColorBlock cb = toggle.colors;
         if (toggle.isOn)
         {
-            DifficultyManager.sharedInstance.myDifficulty = difficulty;
             cb.normalColor = selectedColor;
+            DifficultyManager.sharedInstance.photonView.RPC("ChangeDifficulty", RpcTarget.All, btnDifficulty, DifficultyManager.sharedInstance.isHost);
         } else
         {
             cb.normalColor = originalNormalColor;

@@ -40,7 +40,19 @@ public class ObjectsSpawner : MonoBehaviourPun
 
     void SpawnObject()
     {
+        int objectsToSpawn;
 
+        if (gameObject.tag == "Player1")
+        {
+            objectsToSpawn = DifficultyManager.sharedInstance.player1Difficulty;
+            Debug.Log(objectsToSpawn + "a Player 1");
+        } else
+        {
+            objectsToSpawn = DifficultyManager.sharedInstance.player2Difficulty;
+            Debug.Log(objectsToSpawn + "a Player 2");
+        }
+
+        for (int i = 0; i < objectsToSpawn; i++)
         if (PhotonNetwork.IsMasterClient)
         {
 

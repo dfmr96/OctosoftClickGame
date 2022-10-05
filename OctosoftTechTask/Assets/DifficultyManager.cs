@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DifficultyManager : MonoBehaviourPun, IPunObservable
+public class DifficultyManager : MonoBehaviourPun
 {
     public static DifficultyManager sharedInstance;
     [SerializeField] Toggle easyBtn, normalbtn, hardbtn;
-    public int myDifficulty;
     public int player1Difficulty;
     public int player2Difficulty;
+    public bool isHost = false;
     private void Awake()
     {
         if (sharedInstance == null)
@@ -18,34 +18,19 @@ public class DifficultyManager : MonoBehaviourPun, IPunObservable
             sharedInstance = this;
         }
     }
-    private void Start()
-    {
-        normalbtn.isOn = true;
-    }
 
-    private void Update()
+    [PunRPC]
+    void ChangeDifficulty(int difficulty, bool host)
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (host)
         {
-            player1Difficulty = myDifficulty;
+            player1Difficulty = difficulty;
+            Debug.Log("Player 1 act Difficulty changed to " + player1Difficulty + "for " + PhotonNetwork.PlayerList[0].NickName + PhotonNetwork.PlayerList[1].NickName);
         }
         else
         {
-            player2Difficulty = myDifficulty;
-        }
-    }
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(player1Difficulty);
-            stream.SendNext(player2Difficulty);
-        }
-        else
-        {
-            player1Difficulty = (int)stream.ReceiveNext();
-            player2Difficulty = (int)stream.ReceiveNext();
+            player2Difficulty = difficulty;
+            Debug.Log("Player 2 act Difficulty changed to " + player2Difficulty + "for " + PhotonNetwork.PlayerList[1].NickName + PlayerPrefs.GetString("PLAYER_NAME"));
         }
     }
 }

@@ -30,12 +30,12 @@ public class MasterServer : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("Connected to Main Server");
-
+        PhotonNetwork.NickName = PlayerPrefs.GetString("PLAYER_NAME");
         PhotonNetwork.AutomaticallySyncScene = true;
+
         
         ActiveCreateJoinBtn();
 
-        PhotonNetwork.NickName = PlayerPrefs.GetString("PLAYER_NAME");
     }
 
     public void CreateRoom()
@@ -48,6 +48,7 @@ public class MasterServer : MonoBehaviourPunCallbacks
         Debug.Log(PhotonNetwork.CurrentRoom + "created succesfully");
         DeactiveCreateJoinBtn();
 
+        DifficultyManager.sharedInstance.isHost = true;
 
     }
 
@@ -70,14 +71,6 @@ public class MasterServer : MonoBehaviourPunCallbacks
         exitRoom.interactable = true;
 
         DeactiveCreateJoinBtn();
-
-        //if (PhotonNetwork.PlayerList.Length == 2)
-        //{
-        //    PhotonNetwork.LoadLevel("Multiplayer");
-
-        //}
-
-        DifficultyManager.sharedInstance.player2Difficulty = DifficultyManager.sharedInstance.myDifficulty;
 
         StartCoroutine(matchStarting());
     }
@@ -118,8 +111,8 @@ public class MasterServer : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.PlayerList.Length == 2)
         {
-            yield return new WaitForSeconds(5f);
-        //PhotonNetwork.LoadLevel("Multiplayer");
+            yield return new WaitForSeconds(3f);
+        PhotonNetwork.LoadLevel("Multiplayer");
         }
     }
 }

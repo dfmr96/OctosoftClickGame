@@ -156,7 +156,6 @@ MonoBehaviour:
   easyBtn: {fileID: 1828702342}
   normalbtn: {fileID: 1839631171}
   hardbtn: {fileID: 2144155645}
-  difficulty: 0
   player1Difficulty: 0
   player2Difficulty: 0
 --- !u!4 &11128553
@@ -192,8 +191,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents:
-  - {fileID: 11128552}
+  ObservedComponents: []
   sceneViewId: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -1876,7 +1874,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f88587da1a871b34b980c3088824edba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  difficulty: 0
+  btnDifficulty: 1
 --- !u!1 &1839631167
 GameObject:
   m_ObjectHideFlags: 0
@@ -2016,7 +2014,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f88587da1a871b34b980c3088824edba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  difficulty: 1
+  btnDifficulty: 2
 --- !u!1 &1949566400
 GameObject:
   m_ObjectHideFlags: 0
@@ -2461,4 +2459,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f88587da1a871b34b980c3088824edba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  difficulty: 2
+  btnDifficulty: 3

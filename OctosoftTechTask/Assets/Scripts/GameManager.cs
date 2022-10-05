@@ -42,14 +42,6 @@ public class GameManager : MonoBehaviourPun, IPunObservable
         {
             sharedInstance = this;
         }
-
-        if (PhotonNetwork.IsMasterClient)
-        {
-            player1Difficulty = DifficultyManager.sharedInstance.myDifficulty;
-        } else
-        {
-            player2Difficulty = DifficultyManager.sharedInstance.myDifficulty;
-        }
     }
     private void Start()
     {
