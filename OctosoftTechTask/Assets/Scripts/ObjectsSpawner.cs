@@ -6,7 +6,8 @@ using UnityEngine;
 public class ObjectsSpawner : MonoBehaviourPun
 {
     public GameObject[] objectsPrefabs = new GameObject[5];
-    public GameObject zoneToSpawn;
+    public BoxCollider zoneToSpawn;
+    public BoxCollider singlePlayerZoneToSpawn;
     float maxX, minX, maxY, minY, maxZ, minZ;
     [SerializeField] float randomTimeToSpawn;
 
@@ -21,46 +22,58 @@ public class ObjectsSpawner : MonoBehaviourPun
     float randomY;
     float randomZ;
 
+
+
     GameObject randomObject;
 
     private void Start()
     {
-        maxX = zoneToSpawn.GetComponent<BoxCollider>().bounds.max.x;
-        minX = zoneToSpawn.GetComponent<BoxCollider>().bounds.min.x;
+        if(GameModeManager.sharedInstance.isSinglePlayer)
+        {
+            zoneToSpawn = singlePlayerZoneToSpawn;
+        }
+        maxX = zoneToSpawn.bounds.max.x;
+        minX = zoneToSpawn.bounds.min.x;
 
-        maxY = zoneToSpawn.GetComponent<BoxCollider>().bounds.max.y;
-        minY = zoneToSpawn.GetComponent<BoxCollider>().bounds.min.y;
+        maxY = zoneToSpawn.bounds.max.y;
+        minY = zoneToSpawn.bounds.min.y;
 
-        maxZ = zoneToSpawn.GetComponent<BoxCollider>().bounds.max.z;
-        minZ = zoneToSpawn.GetComponent<BoxCollider>().bounds.min.z;
+        maxZ = zoneToSpawn.bounds.max.z;
+        minZ = zoneToSpawn.bounds.min.z;
         numberObjectsToSpawn();
         StartCoroutine(SpawnObjectTimer());
     }
 
     public void RandomSpawnTime()
     {
-        float easyMinTimeToSpawn = 3f;
-        float easyMaxTimeToSpawn = 4f;
-        float normalMinTimeToSpawn = 2f;
-        float normalMaxTimeToSpawn = 3f;
-        float hardMinTimeToSpawn = 1f;
-        float hardMaxTimeToSpawn = 2f;
+        float easyMinTimeToSpawn = 1.5f;
+        float easyMaxTimeToSpawn = 3.5f;
+        float normalMinTimeToSpawn = 1f;
+        float normalMaxTimeToSpawn = 2f;
+        float hardMinTimeToSpawn = 0.5f;
+        float hardMaxTimeToSpawn = 1f;
 
-
-        if (gameObject.tag == "Player 1")
+        if (gameObject.tag == "Player1")
+        {
             switch (DifficultyManager.sharedInstance.player1Difficulty)
             {
                 case 1:
                     randomTimeToSpawn = Random.Range(easyMinTimeToSpawn, easyMaxTimeToSpawn);
+                    Debug.Log("Dificultad 1" + easyMaxTimeToSpawn + easyMinTimeToSpawn);
                     break;
 
                 case 2:
                     randomTimeToSpawn = Random.Range(normalMinTimeToSpawn, normalMaxTimeToSpawn);
+                    Debug.Log("Dificultad 2" + normalMaxTimeToSpawn + normalMinTimeToSpawn);
+
                     break;
                 case 3:
                     randomTimeToSpawn = Random.Range(hardMinTimeToSpawn, hardMaxTimeToSpawn);
+                    Debug.Log("Dificultad 3" + hardMaxTimeToSpawn + hardMinTimeToSpawn);
+
                     break;
             }
+        }
         else
         {
             switch (DifficultyManager.sharedInstance.player2Difficulty)

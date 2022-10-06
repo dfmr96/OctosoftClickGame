@@ -1,6 +1,4 @@
 using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +9,7 @@ public class DifficultyManager : MonoBehaviourPun
     public int player1Difficulty = 1;
     public int player2Difficulty = 1;
     public bool isHost = false;
+    [SerializeField] GameObject difficultyTiers;
     private void Awake()
     {
         if (sharedInstance == null)
@@ -30,5 +29,10 @@ public class DifficultyManager : MonoBehaviourPun
         {
             player2Difficulty = difficulty;
         }
+    }
+
+    public void ShowDifficulties()
+    {
+        difficultyTiers.SetActive(true);
     }
 }

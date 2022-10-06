@@ -31,6 +31,12 @@ public class MasterServer : MonoBehaviourPunCallbacks
             maxPlayersRoom = 2;
         Debug.Log("Connecting to Server...");
         }
+        ActiveCreateJoinBtn();
+
+        if(PhotonNetwork.InRoom)
+        {
+            PhotonNetwork.LeaveRoom();
+        }
     }
 
     public void ActiveCreateJoinBtn()
@@ -66,7 +72,7 @@ public class MasterServer : MonoBehaviourPunCallbacks
         DeactiveCreateJoinBtn();
 
         DifficultyManager.sharedInstance.isHost = true;
-
+        counter = 5f;
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
@@ -130,6 +136,7 @@ public class MasterServer : MonoBehaviourPunCallbacks
         {
             playersReady = true;
             playersReadyGO.SetActive(true);
+            DifficultyManager.sharedInstance.ShowDifficulties();
             yield return new WaitForSeconds(counter);
             PhotonNetwork.LoadLevel("MainGame");
         }

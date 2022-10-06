@@ -13,6 +13,7 @@ public class MainMenuUIManager : MonoBehaviour
 
     private void Start()
     {
+        Time.timeScale = 1;
         Debug.Log(PlayerPrefs.GetString("PLAYER_NAME"));
     }
     public void PlayGame()
