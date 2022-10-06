@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraTestControl : MonoBehaviour
@@ -13,9 +11,9 @@ public class CameraTestControl : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            gameObject.transform.Translate(-1,0,0);
+            gameObject.transform.Translate(-1, 0, 0);
         }
-        if(Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             gameObject.transform.Translate(-1, 0, 0);
         }

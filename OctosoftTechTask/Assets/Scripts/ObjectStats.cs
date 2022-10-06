@@ -7,14 +7,13 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(PhotonTransformView))]
 public class ObjectStats : MonoBehaviourPun, IPointerClickHandler
 {
+    [Header("Objects Stats")]
+    public int health = 0;
     public int pointsGranted = 0;
     public int pointsLost = 0;
-    public int health = 0;
     public int coinsBonusSpawn = 0;
     [SerializeField] int secondsToBeDestroyed = 5;
     //[SerializeField] bool isTarget = false;
-
-
     private void Start()
     {
         StartCoroutine(LifeTimer());
@@ -23,6 +22,7 @@ public class ObjectStats : MonoBehaviourPun, IPointerClickHandler
     {
         yield return new WaitForSeconds(secondsToBeDestroyed);
         LossPointsOnDisappear(pointsLost);
+        AudioManager.sharedInstance.objectDestroyed.Play();
         Destroy(gameObject);
     }
 
@@ -94,17 +94,13 @@ public class ObjectStats : MonoBehaviourPun, IPointerClickHandler
     {
         if (photonView.IsMine)
         {
-
-            Debug.Log("Clicked: " + eventData.pointerCurrentRaycast.gameObject.name);
-
             health--;
-
             if (health <= 0)
             {
                 photonView.RPC("GrantPoints", RpcTarget.All, pointsGranted, coinsBonusSpawn);
+                AudioManager.sharedInstance.objectDestroyed.Play();
                 PhotonNetwork.Destroy(gameObject);
             }
-
         }
     }
 }

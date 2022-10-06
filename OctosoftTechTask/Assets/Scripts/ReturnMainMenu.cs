@@ -7,6 +7,7 @@ public class ReturnMainMenu : MonoBehaviour
 {
     public void GoToMainMenu()
     {
+        AudioManager.sharedInstance.btnSound.Play();
         SceneManager.LoadScene(0);
     }
 }

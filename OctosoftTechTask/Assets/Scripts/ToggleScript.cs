@@ -24,6 +24,7 @@ public class ToggleScript : MonoBehaviour
         if (toggle.isOn)
         {
             cb.normalColor = selectedColor;
+            AudioManager.sharedInstance.btnSound.Play();
             DifficultyManager.sharedInstance.photonView.RPC("ChangeDifficulty", RpcTarget.All, btnDifficulty, DifficultyManager.sharedInstance.isHost);
         } else
         {

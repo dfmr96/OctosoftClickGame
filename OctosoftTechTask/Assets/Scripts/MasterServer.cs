@@ -1,44 +1,52 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using TMPro;
-using System.Diagnostics.Tracing;
 using System;
+using System.Collections;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class MasterServer : MonoBehaviourPunCallbacks
 {
-    [SerializeField] Button createRoom, joinRoom, exitRoom;
-    [SerializeField] TMP_Text countdownToStart, playerJoined;
+    [Header("UI Buttons")]
+    [SerializeField] Button createRoom;
+    [SerializeField] Button joinRoom;
+    [SerializeField] Button exitRoom;
+    [Space]
+    [Header("UI Text")]
+    [SerializeField] TMP_Text countdownToStart;
+    [SerializeField] TMP_Text playerJoined;
+    [Space]
+    [Header("Countdown settings")]
     [SerializeField] float counter = 5f;
     public TimeSpan timeSpan;
-    bool playersReady = false;
+    [Header("Game Objects")]
     [SerializeField] GameObject playersReadyGO;
+    [Header("Misc")]
     [SerializeField] byte maxPlayersRoom;
-
+    bool playersReady = false;
     void Start()
     {
+        /// Single Player / Multiplayer setter ///
         if (GameModeManager.sharedInstance.isSinglePlayer)
         {
             PhotonNetwork.OfflineMode = true;
             maxPlayersRoom = 1;
-        } else
-        {
-        PhotonNetwork.ConnectUsingSettings();
-            maxPlayersRoom = 2;
-        Debug.Log("Connecting to Server...");
         }
-        ActiveCreateJoinBtn();
-
-        if(PhotonNetwork.InRoom)
+        else
         {
+            PhotonNetwork.ConnectUsingSettings();
+            maxPlayersRoom = 2;
+            Debug.Log("Connecting to Server...");
+        }
+
+        /// Room Leave on mainscreen ///
+        if (PhotonNetwork.InRoom)
+        {
+            ActiveCreateJoinBtn();
             PhotonNetwork.LeaveRoom();
         }
     }
-
     public void ActiveCreateJoinBtn()
     {
         createRoom.interactable = true;
@@ -49,20 +57,16 @@ public class MasterServer : MonoBehaviourPunCallbacks
         createRoom.interactable = false;
         joinRoom.interactable = false;
     }
-
     public override void OnConnectedToMaster()
     {
         Debug.Log("Connected to Main Server");
         PhotonNetwork.NickName = PlayerPrefs.GetString("PLAYER_NAME");
         PhotonNetwork.AutomaticallySyncScene = true;
-
-        
         ActiveCreateJoinBtn();
-
     }
-
     public void CreateRoom()
     {
+        AudioManager.sharedInstance.btnSound.Play();
         Debug.Log("Creating Room...");
         PhotonNetwork.CreateRoom(null, new RoomOptions() { MaxPlayers = maxPlayersRoom }, TypedLobby.Default);
     }
@@ -70,7 +74,6 @@ public class MasterServer : MonoBehaviourPunCallbacks
     {
         Debug.Log(PhotonNetwork.CurrentRoom + "created succesfully");
         DeactiveCreateJoinBtn();
-
         DifficultyManager.sharedInstance.isHost = true;
         counter = 5f;
     }
@@ -80,10 +83,9 @@ public class MasterServer : MonoBehaviourPunCallbacks
         base.OnCreateRoomFailed(returnCode, message);
         Debug.Log(message);
     }
-
-
     public void JoinRoom()
     {
+        AudioManager.sharedInstance.btnSound.Play();
         Debug.Log("Joining Room...");
         PhotonNetwork.JoinRandomRoom();
     }
@@ -92,9 +94,7 @@ public class MasterServer : MonoBehaviourPunCallbacks
         base.OnJoinedRoom();
         Debug.Log(PhotonNetwork.NickName + " connected to " + PhotonNetwork.CurrentRoom);
         exitRoom.interactable = true;
-
         DeactiveCreateJoinBtn();
-
         StartCoroutine(matchStarting());
     }
 
@@ -103,20 +103,17 @@ public class MasterServer : MonoBehaviourPunCallbacks
         base.OnJoinRandomFailed(returnCode, message);
         Debug.Log(message);
     }
-
-
     public void ExitRoom()
     {
+        AudioManager.sharedInstance.btnSound.Play();
         PhotonNetwork.LeaveRoom();
         Debug.Log("Leaving Room...");
-        
     }
 
     public override void OnLeftRoom()
     {
         base.OnLeftRoom();
         Debug.Log("You left the room");
-
         ActiveCreateJoinBtn();
         exitRoom.interactable = false;
     }
@@ -124,14 +121,13 @@ public class MasterServer : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         base.OnPlayerEnteredRoom(newPlayer);
-        Debug.Log( newPlayer + " joined");
+        Debug.Log(newPlayer + " joined");
         playerJoined.text = newPlayer.NickName + " has joined";
         StartCoroutine(matchStarting());
     }
 
     IEnumerator matchStarting()
     {
-
         if (PhotonNetwork.PlayerList.Length == (int)maxPlayersRoom)
         {
             playersReady = true;
@@ -141,15 +137,13 @@ public class MasterServer : MonoBehaviourPunCallbacks
             PhotonNetwork.LoadLevel("MainGame");
         }
     }
-
     private void Update()
     {
-        if (playersReady) {
-
-        counter -= Time.deltaTime;
-
-        timeSpan = TimeSpan.FromSeconds(counter);
-        countdownToStart.text = string.Format("{0:D2}:{1:D2}", (timeSpan.Seconds), (timeSpan.Milliseconds));
+        if (playersReady)
+        {
+            counter -= Time.deltaTime;
+            timeSpan = TimeSpan.FromSeconds(counter);
+            countdownToStart.text = string.Format("{0:D2}:{1:D2}", (timeSpan.Seconds), (timeSpan.Milliseconds));
         }
     }
 }

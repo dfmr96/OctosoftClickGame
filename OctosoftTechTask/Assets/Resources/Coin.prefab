@@ -113,9 +113,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcf9f039c18c341448973d6d5347dfdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 1
   pointsGranted: 5
   pointsLost: 1
-  health: 1
   coinsBonusSpawn: 0
   secondsToBeDestroyed: 5
 --- !u!114 &892065658213102700

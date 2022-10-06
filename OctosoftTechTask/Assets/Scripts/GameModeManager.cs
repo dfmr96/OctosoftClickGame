@@ -12,6 +12,9 @@ public class GameModeManager : MonoBehaviour
         if (sharedInstance == null)
         {
             sharedInstance = this;
+        } else
+        {
+            Destroy(gameObject);
         }
     }
 }

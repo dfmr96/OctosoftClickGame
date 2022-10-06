@@ -6,38 +6,34 @@ using UnityEngine;
 public class ObjectsSpawner : MonoBehaviourPun
 {
     public GameObject[] objectsPrefabs = new GameObject[5];
+    [Space]
+    [Header("Single/Multiplayer Box Collider")]
     public BoxCollider zoneToSpawn;
     public BoxCollider singlePlayerZoneToSpawn;
-    float maxX, minX, maxY, minY, maxZ, minZ;
+    [Space]
     [SerializeField] float randomTimeToSpawn;
-
     public GameObject playerParent;
-
-    public Vector3 randomPos = Vector3.zero;
     public int randomPrefab = 0;
+    public Vector3 randomPos = Vector3.zero;
 
+    /// Private variables ///
+    float maxX, minX, maxY, minY, maxZ, minZ;
     int objectsToSpawn = 0;
-
     float randomX;
     float randomY;
     float randomZ;
-
-
-
     GameObject randomObject;
-
     private void Start()
     {
         if(GameModeManager.sharedInstance.isSinglePlayer)
         {
             zoneToSpawn = singlePlayerZoneToSpawn;
         }
+        //Bounds for objects to spawn ///
         maxX = zoneToSpawn.bounds.max.x;
         minX = zoneToSpawn.bounds.min.x;
-
         maxY = zoneToSpawn.bounds.max.y;
         minY = zoneToSpawn.bounds.min.y;
-
         maxZ = zoneToSpawn.bounds.max.z;
         minZ = zoneToSpawn.bounds.min.z;
         numberObjectsToSpawn();
@@ -46,6 +42,7 @@ public class ObjectsSpawner : MonoBehaviourPun
 
     public void RandomSpawnTime()
     {
+        /// Min/Max time for each difficulty ///
         float easyMinTimeToSpawn = 1.5f;
         float easyMaxTimeToSpawn = 3.5f;
         float normalMinTimeToSpawn = 1f;
@@ -53,6 +50,7 @@ public class ObjectsSpawner : MonoBehaviourPun
         float hardMinTimeToSpawn = 0.5f;
         float hardMaxTimeToSpawn = 1f;
 
+        /// Check each player difficulty ///
         if (gameObject.tag == "Player1")
         {
             switch (DifficultyManager.sharedInstance.player1Difficulty)
@@ -97,7 +95,6 @@ public class ObjectsSpawner : MonoBehaviourPun
         yield return new WaitForSeconds(randomTimeToSpawn);
         SpawnObject();
         StartCoroutine(SpawnObjectTimer());
-
         Debug.Log(randomTimeToSpawn);
     }
 
@@ -138,6 +135,7 @@ public class ObjectsSpawner : MonoBehaviourPun
 
     public void SpawnersOwnerChecker()
     {
+        /// Gives ownership to 2nd player to be able to destroy objects ///
         if (gameObject.tag == "Player1")
         {
             randomObject.GetPhotonView().TransferOwnership(PhotonNetwork.PlayerList[0]);

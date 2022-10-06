@@ -335,6 +335,82 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!1 &296699080
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 296699081}
+  - component: {fileID: 296699083}
+  - component: {fileID: 296699082}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &296699081
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296699080}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2017072476}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 10, y: 1500}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &296699082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296699080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &296699083
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296699080}
+  m_CullTransparentMesh: 1
 --- !u!1 &418011336
 GameObject:
   m_ObjectHideFlags: 0
@@ -368,7 +444,7 @@ RectTransform:
   - {fileID: 1356038612}
   - {fileID: 1617061411}
   m_Father: {fileID: 2017072476}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -541,7 +617,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2017072476}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -873,19 +949,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player1TotalPoints: 0
   player2TotalPoints: 0
-  player1Points: {fileID: 503640290}
-  player2Points: {fileID: 744275910}
-  pointsToWin: 100
-  timeLeft: {fileID: 1871316080}
-  counter: 0
-  maxTime: 120
-  targetDestroyed: 0
   coinsToSpawn: 0
   player1CoinsToSpawn: 0
   player2CoinsToSpawn: 0
-  gameOverScreen: {fileID: 418011336}
+  player1Points: {fileID: 503640290}
+  player2Points: {fileID: 744275910}
+  timeLeft: {fileID: 1871316080}
   resultsText: {fileID: 1356038613}
-  matchStarted: 0
+  pointsToWin: 100
+  counter: 0
+  maxTime: 120
+  gameOverScreen: {fileID: 418011336}
 --- !u!4 &720873284
 Transform:
   m_ObjectHideFlags: 0
@@ -987,7 +1061,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2017072476}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -1152,8 +1226,8 @@ MonoBehaviour:
   singlePlayerZoneToSpawn: {fileID: 1114655694}
   randomTimeToSpawn: 0
   playerParent: {fileID: 19567117}
-  randomPos: {x: 0, y: 0, z: 0}
   randomPrefab: 0
+  randomPos: {x: 0, y: 0, z: 0}
 --- !u!114 &757633777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2021,6 +2095,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player1Cam: {fileID: 963194227}
   player2Objects: {fileID: 791064543}
+  splitScreenBar: {fileID: 296699080}
 --- !u!1 &1741371979
 GameObject:
   m_ObjectHideFlags: 0
@@ -2379,8 +2454,8 @@ MonoBehaviour:
   singlePlayerZoneToSpawn: {fileID: 0}
   randomTimeToSpawn: 0
   playerParent: {fileID: 1838235477}
-  randomPos: {x: 0, y: 0, z: 0}
   randomPrefab: 0
+  randomPos: {x: 0, y: 0, z: 0}
 --- !u!114 &1865914815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2434,7 +2509,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2017072476}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -2631,6 +2706,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 296699081}
   - {fileID: 503640289}
   - {fileID: 744275909}
   - {fileID: 1871316079}
