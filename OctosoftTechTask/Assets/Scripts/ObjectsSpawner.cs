@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Photon.Pun;
-using Photon.Realtime;
+using System.Collections;
+using UnityEngine;
 
 [RequireComponent(typeof(PhotonView))]
 public class ObjectsSpawner : MonoBehaviourPun
@@ -10,10 +8,20 @@ public class ObjectsSpawner : MonoBehaviourPun
     public GameObject[] objectsPrefabs = new GameObject[5];
     public GameObject zoneToSpawn;
     float maxX, minX, maxY, minY, maxZ, minZ;
-    [SerializeField] float timeToSpawn = 3f;
+    [SerializeField] float randomTimeToSpawn;
 
-    int randomPrefab;
     public GameObject playerParent;
+
+    public Vector3 randomPos = Vector3.zero;
+    public int randomPrefab = 0;
+
+    int objectsToSpawn = 0;
+
+    float randomX;
+    float randomY;
+    float randomZ;
+
+    GameObject randomObject;
 
     private void Start()
     {
@@ -25,39 +33,77 @@ public class ObjectsSpawner : MonoBehaviourPun
 
         maxZ = zoneToSpawn.GetComponent<BoxCollider>().bounds.max.z;
         minZ = zoneToSpawn.GetComponent<BoxCollider>().bounds.min.z;
-
+        numberObjectsToSpawn();
         StartCoroutine(SpawnObjectTimer());
-
-        SpawnObject();
     }
 
+    public void RandomSpawnTime()
+    {
+        float easyMinTimeToSpawn = 3f;
+        float easyMaxTimeToSpawn = 4f;
+        float normalMinTimeToSpawn = 2f;
+        float normalMaxTimeToSpawn = 3f;
+        float hardMinTimeToSpawn = 1f;
+        float hardMaxTimeToSpawn = 2f;
+
+
+        if (gameObject.tag == "Player 1")
+            switch (DifficultyManager.sharedInstance.player1Difficulty)
+            {
+                case 1:
+                    randomTimeToSpawn = Random.Range(easyMinTimeToSpawn, easyMaxTimeToSpawn);
+                    break;
+
+                case 2:
+                    randomTimeToSpawn = Random.Range(normalMinTimeToSpawn, normalMaxTimeToSpawn);
+                    break;
+                case 3:
+                    randomTimeToSpawn = Random.Range(hardMinTimeToSpawn, hardMaxTimeToSpawn);
+                    break;
+            }
+        else
+        {
+            switch (DifficultyManager.sharedInstance.player2Difficulty)
+            {
+                case 1:
+                    randomTimeToSpawn = Random.Range(easyMinTimeToSpawn, easyMaxTimeToSpawn);
+                    break;
+
+                case 2:
+                    randomTimeToSpawn = Random.Range(normalMinTimeToSpawn, normalMaxTimeToSpawn);
+                    break;
+                case 3:
+                    randomTimeToSpawn = Random.Range(hardMinTimeToSpawn, hardMaxTimeToSpawn);
+                    break;
+            }
+        }
+    }
     IEnumerator SpawnObjectTimer()
     {
-        yield return new WaitForSeconds(timeToSpawn);
+        RandomSpawnTime();
+        yield return new WaitForSeconds(randomTimeToSpawn);
         SpawnObject();
         StartCoroutine(SpawnObjectTimer());
+
+        Debug.Log(randomTimeToSpawn);
     }
 
-    void SpawnObject()
+    public void numberObjectsToSpawn()
     {
-        int objectsToSpawn;
-
         if (gameObject.tag == "Player1")
         {
             objectsToSpawn = DifficultyManager.sharedInstance.player1Difficulty;
-            Debug.Log(objectsToSpawn + "a Player 1");
-        } else
+            Debug.Log(objectsToSpawn + " a Player 1");
+        }
+        else
         {
             objectsToSpawn = DifficultyManager.sharedInstance.player2Difficulty;
-            Debug.Log(objectsToSpawn + "a Player 2");
+            Debug.Log(objectsToSpawn + " a Player 2");
         }
+    }
 
-        for (int i = 0; i < objectsToSpawn; i++)
-        if (PhotonNetwork.IsMasterClient)
-        {
-
-        randomPrefab = Random.Range(0, objectsPrefabs.Length);
-
+    public void CoinsChecker()
+    {
         if (GameManager.sharedInstance.player1CoinsToSpawn > 0 && this.tag == "Player1")
         {
             GameManager.sharedInstance.player1CoinsToSpawn--;
@@ -68,22 +114,46 @@ public class ObjectsSpawner : MonoBehaviourPun
             GameManager.sharedInstance.player2CoinsToSpawn--;
             randomPrefab = 0;
         }
-        GameObject randomObject = objectsPrefabs[randomPrefab];
-        float randomX = Random.Range(minX, maxX);
-        float randomY = Random.Range(minY, maxY);
-        float randomZ = Random.Range(maxZ, minZ);
-        Vector3 randomPos = new Vector3(randomX, randomY, randomZ);
-        randomObject = PhotonNetwork.Instantiate(randomObject.name, randomPos, Quaternion.identity);
-        randomObject.transform.parent = playerParent.transform;
-        if (gameObject.tag == "Player1") {
+    }
+
+    public void RandomPosGenerator()
+    {
+        randomX = Random.Range(minX, maxX);
+        randomY = Random.Range(minY, maxY);
+        randomZ = Random.Range(minZ, maxZ);
+    }
+
+    public void SpawnersOwnerChecker()
+    {
+        if (gameObject.tag == "Player1")
+        {
             randomObject.GetPhotonView().TransferOwnership(PhotonNetwork.PlayerList[0]);
             randomObject.tag = "Player1";
-        } else
+        }
+        else
         {
             randomObject.GetPhotonView().TransferOwnership(PhotonNetwork.PlayerList[1]);
             randomObject.tag = "Player2";
         }
+    }
+    void SpawnObject()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
 
+            for (int i = 0; i < objectsToSpawn; i++)
+            {
+                randomPrefab = Random.Range(0, objectsPrefabs.Length);
+                CoinsChecker();
+                RandomPosGenerator();
+                randomPos = new Vector3(randomX, randomY, randomZ);
+                randomObject = objectsPrefabs[randomPrefab];
+                randomObject = PhotonNetwork.Instantiate(randomObject.name, randomPos, Quaternion.identity);
+                randomObject.transform.parent = playerParent.transform;
+
+                Debug.Log("Objeto #" + i + randomObject.name + " " + gameObject.tag);
+                SpawnersOwnerChecker();
+            }
         }
     }
 }

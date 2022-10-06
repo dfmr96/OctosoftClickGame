@@ -8,8 +8,8 @@ public class DifficultyManager : MonoBehaviourPun
 {
     public static DifficultyManager sharedInstance;
     [SerializeField] Toggle easyBtn, normalbtn, hardbtn;
-    public int player1Difficulty;
-    public int player2Difficulty;
+    public int player1Difficulty = 1;
+    public int player2Difficulty = 1;
     public bool isHost = false;
     private void Awake()
     {
@@ -25,12 +25,10 @@ public class DifficultyManager : MonoBehaviourPun
         if (host)
         {
             player1Difficulty = difficulty;
-            Debug.Log("Player 1 act Difficulty changed to " + player1Difficulty + "for " + PhotonNetwork.PlayerList[0].NickName + PhotonNetwork.PlayerList[1].NickName);
         }
         else
         {
             player2Difficulty = difficulty;
-            Debug.Log("Player 2 act Difficulty changed to " + player2Difficulty + "for " + PhotonNetwork.PlayerList[1].NickName + PlayerPrefs.GetString("PLAYER_NAME"));
         }
     }
 }

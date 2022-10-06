@@ -17,17 +17,19 @@ public class MainMenuUIManager : MonoBehaviour
     }
     public void PlayGame()
     {
+        GameModeManager.sharedInstance.isSinglePlayer = true;
         SceneManager.LoadScene(1);
     }
 
     public void Multiplayer()
     {
+        GameModeManager.sharedInstance.isSinglePlayer = false;
         if (!PlayerPrefs.HasKey("PLAYER_NAME"))
         {
             insertNameScreen.SetActive(true);
         } else
         {
-            SceneManager.LoadScene(2);
+            SceneManager.LoadScene(1);
         }
     }
 
@@ -35,7 +37,7 @@ public class MainMenuUIManager : MonoBehaviour
     {
         PlayerPrefs.SetString("PLAYER_NAME", nameInput.text);
         Debug.Log(PlayerPrefs.GetString("PLAYER_NAME"));
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(1);
     }
 
     public void QuitGame()

@@ -18,7 +18,6 @@ public class ObjectStats : MonoBehaviourPun, IPointerClickHandler
     private void Start()
     {
         StartCoroutine(LifeTimer());
-        Debug.Log(gameObject.GetPhotonView().OwnerActorNr);
     }
     IEnumerator LifeTimer()
     {

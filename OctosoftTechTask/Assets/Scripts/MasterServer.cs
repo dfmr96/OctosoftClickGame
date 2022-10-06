@@ -5,15 +5,32 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
+using System.Diagnostics.Tracing;
+using System;
 
 public class MasterServer : MonoBehaviourPunCallbacks
 {
     [SerializeField] Button createRoom, joinRoom, exitRoom;
+    [SerializeField] TMP_Text countdownToStart, playerJoined;
+    [SerializeField] float counter = 5f;
+    public TimeSpan timeSpan;
+    bool playersReady = false;
+    [SerializeField] GameObject playersReadyGO;
+    [SerializeField] byte maxPlayersRoom;
 
     void Start()
     {
+        if (GameModeManager.sharedInstance.isSinglePlayer)
+        {
+            PhotonNetwork.OfflineMode = true;
+            maxPlayersRoom = 1;
+        } else
+        {
         PhotonNetwork.ConnectUsingSettings();
+            maxPlayersRoom = 2;
         Debug.Log("Connecting to Server...");
+        }
     }
 
     public void ActiveCreateJoinBtn()
@@ -41,7 +58,7 @@ public class MasterServer : MonoBehaviourPunCallbacks
     public void CreateRoom()
     {
         Debug.Log("Creating Room...");
-        PhotonNetwork.CreateRoom(null, new RoomOptions() { MaxPlayers = 2 }, TypedLobby.Default);
+        PhotonNetwork.CreateRoom(null, new RoomOptions() { MaxPlayers = maxPlayersRoom }, TypedLobby.Default);
     }
     public override void OnCreatedRoom()
     {
@@ -102,17 +119,30 @@ public class MasterServer : MonoBehaviourPunCallbacks
     {
         base.OnPlayerEnteredRoom(newPlayer);
         Debug.Log( newPlayer + " joined");
-
+        playerJoined.text = newPlayer.NickName + " has joined";
         StartCoroutine(matchStarting());
     }
 
     IEnumerator matchStarting()
     {
 
-        if (PhotonNetwork.PlayerList.Length == 2)
+        if (PhotonNetwork.PlayerList.Length == (int)maxPlayersRoom)
         {
-            yield return new WaitForSeconds(3f);
-        PhotonNetwork.LoadLevel("Multiplayer");
+            playersReady = true;
+            playersReadyGO.SetActive(true);
+            yield return new WaitForSeconds(counter);
+            PhotonNetwork.LoadLevel("MainGame");
+        }
+    }
+
+    private void Update()
+    {
+        if (playersReady) {
+
+        counter -= Time.deltaTime;
+
+        timeSpan = TimeSpan.FromSeconds(counter);
+        countdownToStart.text = string.Format("{0:D2}:{1:D2}", (timeSpan.Seconds), (timeSpan.Milliseconds));
         }
     }
 }

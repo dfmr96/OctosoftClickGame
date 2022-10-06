@@ -13,10 +13,6 @@ public class GameManager : MonoBehaviourPun, IPunObservable
     public TMP_Text player1Points;
     public TMP_Text player2Points;
 
-    public int difficulty;
-    public int player1Difficulty;
-    public int player2Difficulty;
-
     public int pointsToWin = 100;
     public TMP_Text timeLeft;
 
@@ -46,12 +42,22 @@ public class GameManager : MonoBehaviourPun, IPunObservable
     private void Start()
     {
         gameOverScreen.SetActive(false);
+
+
     }
     private void Update()
     {
 
         player1Points.GetComponent<TMP_Text>().text = PhotonNetwork.PlayerList[0].NickName + "\n Score: " + player1TotalPoints.ToString("000");
-        player2Points.GetComponent<TMP_Text>().text = PhotonNetwork.PlayerList[1].NickName + "\n Score: " + player2TotalPoints.ToString("000");
+
+        if (GameModeManager.sharedInstance.isSinglePlayer)
+        {
+            player2Points.GetComponent<TMP_Text>().text = "LOOK FOR A CHALLENGER";
+        }
+        else
+        {
+            player2Points.GetComponent<TMP_Text>().text = PhotonNetwork.PlayerList[1].NickName + "\n Score: " + player2TotalPoints.ToString("000");
+        }
 
         maxTime -= Time.deltaTime;
         timeSpan = TimeSpan.FromSeconds(maxTime);
@@ -59,9 +65,16 @@ public class GameManager : MonoBehaviourPun, IPunObservable
 
         if (timeSpan.TotalSeconds <= 0)
         {
-            if (player1TotalPoints > player2TotalPoints)
+            if (!GameModeManager.sharedInstance.isSinglePlayer)
             {
-                GameOverScreen(true);
+                if (player1TotalPoints > player2TotalPoints)
+                {
+                    GameOverScreen(true);
+                }
+                else
+                {
+                    GameOverScreen(false);
+                }
             }
             else
             {
@@ -73,14 +86,27 @@ public class GameManager : MonoBehaviourPun, IPunObservable
     {
         Time.timeScale = 0;
         gameOverScreen.SetActive(true);
-
-        if (haveWon)
+        if (!GameModeManager.sharedInstance.isSinglePlayer)
         {
-            resultsText.text = PhotonNetwork.PlayerList[0].NickName + " has WON!!!";
+            if (haveWon)
+            {
+                resultsText.text = PhotonNetwork.PlayerList[0].NickName + " has WON!!!";
+            }
+            else
+            {
+                resultsText.text = PhotonNetwork.PlayerList[1].NickName + " has WON!!!";
+            }
         }
         else
         {
-            resultsText.text = PhotonNetwork.PlayerList[1].NickName + " has WON!!!";
+            if (haveWon)
+            {
+                resultsText.text = "You WON!";
+            }
+            else
+            {
+                resultsText.text = "You loose";
+            }
         }
     }
     void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
